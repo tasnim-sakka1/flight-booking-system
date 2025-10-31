@@ -1,6 +1,7 @@
 package com.iit.flightbooking.services.impl;
 
 import com.iit.flightbooking.entities.Traveler;
+import com.iit.flightbooking.exceptions.ResourceNotFoundException;
 import com.iit.flightbooking.repositories.TravelerRepository;
 import com.iit.flightbooking.services.TravelerService;
 import jakarta.transaction.Transactional;
@@ -40,8 +41,7 @@ public class TravelerServiceImpl implements TravelerService {
     @Override
     public Traveler findById(Long id) {
         return travelerRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(
-                        HttpStatus.NOT_FOUND, "Traveler " + id + " not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Traveler","id",id));
     }
 
     @Override
