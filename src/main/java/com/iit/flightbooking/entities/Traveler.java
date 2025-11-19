@@ -38,7 +38,6 @@ public class Traveler {
     @Column(nullable = false)
     private String lastName;
 
-
     @Email
     @NotBlank
     @Column(name = "email", unique = true, nullable = false)
@@ -48,15 +47,14 @@ public class Traveler {
     @Column(name = "phone", nullable = false)
     private String phone;
 
-
     @Size(min = 8, max = 8, message = "Must be exactly 8 characters")
     @Column(name = "passport_no", unique = true, nullable = false)
     private String passportNo;
 
     private String address;
 
-//    @OneToMany(mappedBy = "traveler", cascade = CascadeType.ALL, orphanRemoval = true)
-////    @JsonIgnore
-//    private List<Ticket> tickets;
+    @OneToMany(mappedBy = "traveler", cascade = CascadeType.ALL, orphanRemoval = true)
+//    @JsonIgnore
+    private List<Ticket> tickets;
 
 }
