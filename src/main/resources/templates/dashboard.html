@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${title}">Travel Dashboard</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background-color: #f5f6fa;
+            text-align: center;
+            padding: 40px;
+        }
+        h1 {
+            color: #2f3640;
+        }
+        p {
+            color: #718093;
+        }
+        .card {
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px auto;
+            width: 50%;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .btn {
+            background-color: #0097e6;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .btn:hover {
+            background-color: #40739e;
+        }
+    </style>
+</head>
+<body>
+<div class="card">
+    <h1 th:text="${title}">Welcome to Travel Dashboard</h1>
+    <p th:text="${description}">Explore top destinations and packages</p>
+
+    <a class="btn" href="/api/destinations" target="_blank">
+        View Destinations (JSON API)
+    </a>
+</div>
+</body>
+</html>
