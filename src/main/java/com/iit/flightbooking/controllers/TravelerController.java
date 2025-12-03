@@ -3,6 +3,7 @@ package com.iit.flightbooking.controllers;
 
 import com.iit.flightbooking.entities.Traveler;
 import com.iit.flightbooking.services.TravelerService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
- * Traveler Controller Implementation
+ * Traveler Controller
  *
  * @author Tasnim
  * @since 2025-10
@@ -35,7 +36,7 @@ public class TravelerController {
         }
         */
     @PostMapping
-    public ResponseEntity<Traveler> create(@RequestBody Traveler body) {
+    public ResponseEntity<Traveler> create(@Valid @RequestBody Traveler body) {
         Traveler createTraveler = travelerService.create(body);
         return new ResponseEntity<>(createTraveler, HttpStatus.CREATED); // 201
     }
@@ -67,7 +68,7 @@ public class TravelerController {
                 "passportNo": "TSN123456"
         }*/
     @PutMapping("/{id}")
-    public ResponseEntity<Traveler> update( @PathVariable Long id, @RequestBody Traveler body) {
+    public ResponseEntity<Traveler> update(@PathVariable Long id, @Valid @RequestBody Traveler body) {
         return ResponseEntity.ok(travelerService.update(id, body)); // 200
     }
 
@@ -77,5 +78,4 @@ public class TravelerController {
         travelerService.deleteById(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT); // 204
     }
-
 }
