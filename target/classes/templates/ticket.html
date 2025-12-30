@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Flight Ticket</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            margin: 20px;
+        }
+        h2, h3 {
+            color: #2C3E50;
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 25px;
+        }
+        th, td {
+            text-align: left;
+            padding: 8px 12px;
+        }
+        th {
+            background-color: #2980B9;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        .highlight {
+            font-weight: bold;
+            color: #E74C3C;
+        }
+        .section {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<h2>Flight Ticket Confirmation</h2>
+
+<div class="section">
+    <h3>Traveler Information</h3>
+    <table>
+        <tr>
+            <th>Name</th>
+            <td th:text="${traveler.firstName} + ' ' + ${traveler.lastName}"></td>
+        </tr>
+        <tr>
+            <th>Email</th>
+            <td th:text="${traveler.email}"></td>
+        </tr>
+        <tr>
+            <th>Phone</th>
+            <td th:text="${traveler.phone}"></td>
+        </tr>
+        <tr>
+            <th>Passport No</th>
+            <td th:text="${traveler.passportNo}"></td>
+        </tr>
+    </table>
+</div>
+
+<div class="section">
+    <h3>Flight Details</h3>
+    <table>
+        <tr>
+            <th>Flight Code</th>
+            <td class="highlight" th:text="${flight.code}"></td>
+        </tr>
+        <tr>
+            <th>Company</th>
+            <td th:text="${flight.company}"></td>
+        </tr>
+        <tr>
+            <th>Origin</th>
+            <td th:text="${flight.origin}"></td>
+        </tr>
+        <tr>
+            <th>Destination</th>
+            <td th:text="${flight.destination}"></td>
+        </tr>
+        <tr>
+            <th>Departure</th>
+            <td th:text="${#temporals.format(flight.departureTime, 'yyyy-MM-dd HH:mm')}"></td>
+        </tr>
+        <tr>
+            <th>Arrival</th>
+            <td th:text="${#temporals.format(flight.arrivalTime, 'yyyy-MM-dd HH:mm')}"></td>
+        </tr>
+    </table>
+</div>
+
+<div class="section">
+    <h3>Ticket Information</h3>
+    <table>
+        <tr>
+            <th>Status</th>
+            <td class="highlight" th:text="${ticket.ticketStatus}"></td>
+        </tr>
+        <tr>
+            <th>Price</th>
+            <td class="highlight" th:text="${ticket.price} + ' DT'"></td>
+        </tr>
+        <tr>
+            <th>Issued</th>
+            <td th:text="${#temporals.format(ticket.createdAt, 'yyyy-MM-dd HH:mm')}"></td>
+        </tr>
+    </table>
+</div>
+
+<p style="text-align:center; margin-top:30px;">Thank you for booking with us!</p>
+
+</body>
+</html>
