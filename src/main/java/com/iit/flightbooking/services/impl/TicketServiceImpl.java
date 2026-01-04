@@ -7,9 +7,11 @@ import com.iit.flightbooking.enums.TicketStatus;
 import com.iit.flightbooking.mappers.FlightMapper;
 import com.iit.flightbooking.mappers.TravelerMapper;
 import com.iit.flightbooking.repositories.TicketRepository;
+import com.iit.flightbooking.services.EmailService;
 import com.iit.flightbooking.services.FlightService;
 import com.iit.flightbooking.services.TicketService;
 import com.iit.flightbooking.services.TravelerService;
+import com.iit.flightbooking.util.PdfGenerator;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -46,6 +48,11 @@ public class TicketServiceImpl implements TicketService {
 //        ticket.setTicketStatus(TicketStatus.ACTIVE);
 //        return ticketRepository.save(ticket);
 //    }
+    @Autowired
+    private PdfGenerator pdfGenerator;
+    @Autowired
+    private EmailService emailService;
+
     @Override
     public Ticket save(Ticket ticket, Long travelerId, Long flightId) {
         Traveler traveler = travelerService.findById(travelerId);
@@ -53,14 +60,28 @@ public class TicketServiceImpl implements TicketService {
 
         ticket.setTraveler(traveler);
         ticket.setFlight(flight);
-
-//        if (ticket.getCreatedAt() == null) {
-            ticket.setCreatedAt(LocalDateTime.now());
-//        }
+        ticket.setCreatedAt(LocalDateTime.now());
         if (ticket.getTicketStatus() == null) {
             ticket.setTicketStatus(TicketStatus.ACTIVE);
         }
-        return ticketRepository.save(ticket);
+
+        Ticket savedTicket = ticketRepository.save(ticket);
+
+        // Prepare Thymeleaf context
+        org.thymeleaf.context.Context context = new org.thymeleaf.context.Context();
+        context.setVariable("traveler", traveler);
+        context.setVariable("flight", flight);
+        context.setVariable("ticket", savedTicket);
+
+        // Generate PDF
+        byte[] pdfData = pdfGenerator.generatePdf("ticket", context);
+
+        // Send email with PDF
+        String subject = "Your Ticket Confirmation";
+        String body = "Hello " + traveler.getFirstName() + ",\nYour ticket is attached as a PDF.";
+        emailService.sendEmailWithAttachment(traveler.getEmail(), subject, body, pdfData, "Ticket.pdf");
+
+        return savedTicket;
     }
 
 
